@@ -624,15 +624,16 @@ public class Xls_Reader {
 		  }
 	
 
-	public  void setcelldata(String path, String sheetName, String colName,  String data)
+	public static  void setcelldata(String path, String sheetName, String colName,  String data)
 			throws Exception {
 		// create an object of Workbook and pass the FileInputStream object into
 		// it to create a pipeline between the sheet and eclipse.
+		System.out.println(path+" --" +sheetName+" --"+colName+"-- "+data+"");
 		FileInputStream fis = new FileInputStream(path);
-		workbook = new XSSFWorkbook(fis);
-		sheet = workbook.getSheet(sheetName);
+		XSSFWorkbook workbook = new XSSFWorkbook(fis);
+		XSSFSheet  sheet = workbook.getSheet(sheetName);
 		int col_Num = -1;
-		row = sheet.getRow(0);
+		XSSFRow row = sheet.getRow(0);
 		for (int i = 0; i < row.getLastCellNum(); i++) {
 			if (row.getCell(i).getStringCellValue().trim().equals(colName)) {
 				col_Num = i;
@@ -642,11 +643,11 @@ public class Xls_Reader {
 		int rowNum =1;
 
 		//sheet.autoSizeColumn(col_Num);
-		row = sheet.getRow(rowNum);
+		 row = sheet.getRow(rowNum);
 		if (row == null)
 			row = sheet.createRow(rowNum);
 
-		cell = row.getCell(col_Num);
+		XSSFCell cell = row.getCell(col_Num);
 		if (cell == null)
 			cell = row.createCell(col_Num);
 		cell.setCellType(cell.CELL_TYPE_STRING);
@@ -656,6 +657,7 @@ public class Xls_Reader {
 		fos.close();
 		System.out.println("End writing " + data + " into this file path: "+ path +"   Sheet name: " + sheetName +"   Column name: " + colName +"");
 	}
+
 
 
 	public static void main(String[] args) throws Exception {
